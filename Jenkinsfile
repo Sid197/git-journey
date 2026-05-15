@@ -31,19 +31,21 @@ pipeline {
             }
         }
 
+        stage('Archive') {
+            steps {
+                archiveArtifacts artifacts: 'target/*.jar', fingerprint: true
+            }
+        }
+
         stage('Deploy') {
             steps {
-                echo 'Deploy stage — add your deploy commands here'
+                echo "✅ Build #${BUILD_NUMBER} complete — JAR is ready!"
             }
         }
     }
 
     post {
-        success {
-            echo "✅ Build #${BUILD_NUMBER} succeeded!"
-        }
-        failure {
-            echo "❌ Build #${BUILD_NUMBER} failed!"
-        }
+        success { echo "✅ Build #${BUILD_NUMBER} succeeded!" }
+        failure  { echo "❌ Build #${BUILD_NUMBER} failed!" }
     }
 }
